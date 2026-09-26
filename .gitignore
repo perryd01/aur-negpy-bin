@@ -1,0 +1,7 @@
+pkg/
+src/
+*.pkg.tar.zst
+*.AppImage
+*.tar.gz
+*.tar.xz
+LICENSE
