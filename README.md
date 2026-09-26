@@ -6,10 +6,59 @@ This package repackages the upstream AppImage and installs its extracted content
 
 ## Installation
 
+### From the AUR
+
+`makepkg` needs the `base-devel` group:
+
 ```bash
+sudo pacman -S --needed base-devel
 git clone https://aur.archlinux.org/negpy-bin.git
 cd negpy-bin
 makepkg -si
+```
+
+`makepkg -si` builds the package, installs missing dependencies with `pacman`, and installs the result.
+
+### Build and install a local package
+
+`makepkg` only builds a package file; it does not install anything. `pacman -U` installs that file, resolving its `depends` from your mirrors.
+
+```bash
+cd negpy-bin
+makepkg                                  # -> negpy-bin-<ver>-<rel>-x86_64.pkg.tar.zst
+ls negpy-bin-*.pkg.tar.zst               # confirm the file exists
+sudo pacman -U negpy-bin-<ver>-<rel>-x86_64.pkg.tar.zst
+```
+
+Then launch it:
+
+```bash
+negpy
+```
+
+### Build without dependency checks
+
+`makepkg -si` runs `pacman` through `sudo`, which fails in a non-interactive shell. When the build dependencies are already present, skip the checks and install the resulting package file yourself:
+
+```bash
+makepkg -d                                    # -d = skip dependency checks
+sudo pacman -U negpy-bin-<ver>-<rel>-x86_64.pkg.tar.zst
+```
+
+### Clean up build files
+
+`makepkg` leaves `src/` (unpacked source) and `pkg/` (staging tree) behind.
+
+```bash
+makepkg -c            # remove work files after a successful build
+makepkg -C            # remove src/ before building
+rm -rf src/ pkg/      # remove manually
+```
+
+### Uninstall
+
+```bash
+sudo pacman -R negpy-bin
 ```
 
 ## Dependencies
