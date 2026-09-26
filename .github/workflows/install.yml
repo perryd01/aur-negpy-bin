@@ -46,7 +46,8 @@ jobs:
         run: chown -R builder:builder .
 
       - name: Build and install package
+        shell: bash
         run: |
-          pkgfile=$(sudo -u builder -H makepkg --packagelist)
+          mapfile -t pkgs < <(sudo -u builder -H makepkg --packagelist)
           sudo -u builder -H makepkg -s --noconfirm
-          pacman -U --noconfirm "$pkgfile"
+          pacman -U --noconfirm "${pkgs[@]}"
