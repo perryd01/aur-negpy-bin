@@ -1,0 +1,53 @@
+name: Build and install
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:base-devel@sha256:8745817f349ed24373341ddb92776209eeec3f0364ea48f7f645ac5800d30a50
+    steps:
+      - name: Install tools
+        run: pacman -Syu --noconfirm git curl
+
+      - name: Create build user
+        run: |
+          useradd -m builder
+          echo 'builder ALL=(ALL) NOPASSWD: /usr/bin/pacman' > /etc/sudoers.d/builder
+
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Restore pacman package cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: /var/cache/pacman/pkg/
+          key: ${{ runner.os }}-pacman-${{ hashFiles('PKGBUILD') }}
+
+      - name: Restore AppImage source cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: negpy-bin-*.AppImage
+          key: ${{ runner.os }}-negpy-src-${{ hashFiles('PKGBUILD') }}
+
+      - name: Fix ownership
+        run: chown -R builder:builder .
+
+      - name: Build and install package
+        shell: bash
+        run: |
+          mapfile -t pkgs < <(sudo -u builder -H makepkg --packagelist)
+          sudo -u builder -H makepkg -s --noconfirm
+          pacman -U --noconfirm "${pkgs[@]}"
