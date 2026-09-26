@@ -30,6 +30,9 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Fix ownership
+        run: chown -R builder:builder .
+
       - name: Regenerate .SRCINFO and compare
         run: |
           sudo -u builder -H makepkg --printsrcinfo > /tmp/.SRCINFO
