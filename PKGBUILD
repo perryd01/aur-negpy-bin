@@ -1,14 +1,16 @@
 pkgname=negpy-bin
 pkgver=0.62.0
-pkgrel=1
+pkgrel=2
 pkgdesc="A tool for processing film negatives with GPU acceleration (AppImage)"
 arch=('x86_64')
 url="https://github.com/marcinz606/NegPy"
 license=('GPL-3.0-only')
 
 # Host libraries the AppImage deliberately does not bundle (see build.py
-# libs_to_remove). Camera and SANE libraries are bundled; only their host
-# udev rules / backends are needed, hence sane and libgphoto2.
+# libs_to_remove). icu, libxml2, systemd-libs and libusb are bundled by
+# PyInstaller, so they are not host dependencies. The camera and SANE
+# libraries are bundled too; host sane is still needed for libsane.so.1 and
+# its backends, while libgphoto2 only supplies udev rules (see optdepends).
 depends=(
   'glibc'
   'gcc-libs'
@@ -18,12 +20,8 @@ depends=(
   'expat'
   'fontconfig'
   'freetype2'
-  'icu'
   'libjpeg-turbo'
-  'libxml2'
   'onetbb'
-  'systemd-libs'
-  'libusb'
   'wayland'
   'libx11'
   'libxcb'
@@ -34,7 +32,6 @@ depends=(
   'libxrender'
   'zlib'
   'sane'
-  'libgphoto2'
   'vulkan-icd-loader'
 )
 
@@ -42,6 +39,7 @@ optdepends=(
   'vulkan-radeon: AMD GPU acceleration'
   'vulkan-intel: Intel GPU acceleration'
   'nvidia-utils: NVIDIA GPU acceleration'
+  'libgphoto2: camera udev rules for camera scanning'
   'sane-airscan: network eSCL/AirScan scanner support'
 )
 

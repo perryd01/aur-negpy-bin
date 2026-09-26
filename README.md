@@ -63,14 +63,15 @@ sudo pacman -R negpy-bin
 
 ## Dependencies
 
-The AppImage deliberately does not bundle a set of host libraries, so this package declares them. Camera and SANE libraries are bundled; only their host udev rules and backends are needed.
+The AppImage deliberately does not bundle a set of host libraries, so this package declares them. `icu`, `libxml2`, `systemd-libs` and `libusb` are bundled and therefore not host dependencies. Camera and SANE libraries are bundled; only their host udev rules and backends are needed.
 
-Runtime essentials: `sane`, `libgphoto2`, `vulkan-icd-loader`, plus the Qt/X11/Wayland libraries listed in the PKGBUILD.
+Runtime essentials: `sane`, `vulkan-icd-loader`, plus the Qt/X11/Wayland libraries listed in the PKGBUILD.
 
 Optional:
 - `vulkan-radeon` — AMD GPU acceleration
 - `vulkan-intel` — Intel GPU acceleration
 - `nvidia-utils` — NVIDIA GPU acceleration
+- `libgphoto2` — camera udev rules for camera scanning
 - `sane-airscan` — network eSCL/AirScan scanner support
 
 ## Updating
