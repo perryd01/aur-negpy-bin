@@ -1,6 +1,6 @@
 pkgname=negpy-bin
 pkgver=0.62.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A tool for processing film negatives with GPU acceleration (AppImage)"
 arch=('x86_64')
 url="https://github.com/marcinz606/NegPy"
@@ -45,6 +45,11 @@ optdepends=(
 
 provides=('negpy')
 conflicts=('negpy' 'negpy-git')
+
+# The AppImage ships prebuilt, already-stripped binaries. Re-stripping them is
+# pointless and makepkg's debug index step just spams errors for every bundled
+# library, so disable both.
+options=('!strip' '!debug')
 
 source=(
   "${pkgname}-${pkgver}.AppImage::https://github.com/marcinz606/NegPy/releases/download/${pkgver}/NegPy-${pkgver}-x86_64.AppImage"
