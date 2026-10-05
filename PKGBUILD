@@ -1,6 +1,6 @@
 pkgname=negpy-bin
-pkgver=0.62.0
-pkgrel=3
+pkgver=0.63.0
+pkgrel=1
 pkgdesc="A tool for processing film negatives with GPU acceleration (AppImage)"
 arch=('x86_64')
 url="https://github.com/marcinz606/NegPy"
@@ -56,7 +56,7 @@ source=(
   "LICENSE::https://raw.githubusercontent.com/marcinz606/NegPy/${pkgver}/LICENSE"
 )
 sha256sums=(
-  'ae3223b7d77440cf989d3191a03c2dbda2c12662ddbaabc00755aa2604f8829b'
+  '6ea1ed26cff2fcb751ad1e4a58826d28a2ee3aca43104a8c9b516abb20b30617'
   '3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986'
 )
 
